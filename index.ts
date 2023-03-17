@@ -12,7 +12,7 @@ fdata.selectorProp = 'cell-name';
 fdata.formulaProp = 'Formula';
 fdata.valueProp = 'value';
 const data = [
-  { CellName: 'I14', Formula: '10' },
+  { CellName: 'I14', value: '10' },
   { CellName: 'I15', value: '30' },
   { CellName: 'I16', Formula: 'I14+I15' },
   { CellName: 'I17', Formula: 'I16+I14' },
@@ -20,6 +20,6 @@ const data = [
 fdata.mapData(data);
 
 const f = new Forms();
-f.setView(appDiv,v);
+f.setView(appDiv, v);
 f.setData(fdata);
 f.run();
