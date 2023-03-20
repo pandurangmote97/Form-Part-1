@@ -19,16 +19,16 @@ export class Forms {
     //View Init Complete
 
     //Content init start
-    for (const fc of Object.keys(this._data.formControls)) {
-      console.log(fc);
-    }
+
     //content init complete
   }
   private renderView() {
-    // const frag = document.createDocumentFragment();
-    // const container = document.createElement('div');
     this._viewContainer.innerHTML = this._viewStr;
-    // frag.appendChild(container);
+    for (const fc of Object.keys(this._data.formControls)) {
+      const el = this.getElement(fc);
+      const o = this._data.formControls[fc];
+      this._data.formControls[fc].nativeEl = el;
+    }
   }
   private getElement(selector: string) {}
   public destroy() {}
@@ -41,6 +41,9 @@ export class FormData {
   formulaProp = '';
   valueProp = '';
   private _data: Array<any> = [];
+  get data() {
+    return this._data;
+  }
   private _fcd = {};
   get formControls() {
     return this._fcd;
@@ -49,13 +52,16 @@ export class FormData {
     this._data = JSON.parse(JSON.stringify(data));
     for (let i = 0, len = this._data.length; i < len; i++) {
       const d = this._data[i];
-      if (!this._fcd[d[this.selectorProp]]) {
-        this._fcd[d[this.selectorProp]] = new FormControl();
+      // console.log(d,this);
+      if (!this._fcd[d[this.dataProp]]) {
+        // console.log(this._fcd);
+        this._fcd[d[this.dataProp]] = new FormControl();
+        this._fcd[d[this.dataProp]].obj = d;
       }
     }
   }
 
-  updateFormConrolReferencees() {}
+  // updateFormConrolReferencees(key: string, fc: FormControl) {}
 }
 
 export class FormControl {
@@ -63,7 +69,7 @@ export class FormControl {
   //   this.obj = _ob;
   // }
   private nativeEl: HTMLElement;
-  // private obj: any;
+  public obj: any;
   get val() {
     // if (this.nativeEl.tagName == 'INPUT') {
     //   return this.nativeEl['value'];
